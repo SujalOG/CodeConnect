@@ -7,7 +7,7 @@
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
-  "author": "synchrotek",
+  "author": "sujal",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^8.1.1",
