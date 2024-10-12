@@ -110,22 +110,22 @@ export const checklistItems = [
   {
     title: "Code merge made easy",
     description:
-      "Track the performance of your VR apps and gain insights into user behavior.",
+      "Create a room write the code in that before or after inviting others or getting invited into others room.",
   },
   {
     title: "Review code without worry",
     description:
-      "Track the performance of your VR apps and gain insights into user behavior.",
+      "Easily review your code with the other users in the room or by compiling the code to get the output.",
   },
   {
-    title: "AI Assistance to reduce time",
+    title: "Chat with other users",
     description:
-      "Track the performance of your VR apps and gain insights into user behavior.",
+      "Chat with everyone in the room for discussing properply.",
   },
   {
-    title: "Share work in minutes",
+    title: "Save work in minutes",
     description:
-      "Track the performance of your VR apps and gain insights into user behavior.",
+      "Work will be saved in the room you created or got invited.",
   },
 ];
 

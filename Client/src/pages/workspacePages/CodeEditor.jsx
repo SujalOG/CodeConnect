@@ -6,27 +6,34 @@ import SOCKET_ACTIONS from '../../utils/socketConn/SocketActions';
 import { WorkspaceContext } from '../../context/WorkspaceProvider';
 
 const CodeEditor = ({
-    socketRef, setFiles, editorTheme,
-    handleCurrentSelectedFileRefChange, handleFileChange
+    socketRef,
+    setFiles,
+    editorTheme,
+    handleCurrentSelectedFileRefChange,
+    handleFileChange,
 }) => {
     const {
-        currentSelectedFile, currentSelectedFileIndexRef, isFilesSyncing
+        currentSelectedFile,
+        currentSelectedFileIndexRef,
+        isFilesSyncing,
     } = useContext(WorkspaceContext);
 
     // State for compiler output and selected language
     const [output, setOutput] = useState('');
     const [language, setLanguage] = useState('javascript'); // Default to JavaScript
+    const [currentCode, setCurrentCode] = useState(currentSelectedFile?.fileContent || ''); // Track current code
 
+    // Effect to handle socket communication for code syncing
     useEffect(() => {
         if (socketRef.current && isFilesSyncing) {
             socketRef.current.on(SOCKET_ACTIONS.CODE_CHANGE, ({ files, fileId }) => {
-                setFiles(files);
+                setFiles(files); // Update the files in the context
                 if (currentSelectedFileIndexRef.current === fileId) {
                     handleCurrentSelectedFileRefChange(files[currentSelectedFileIndexRef.current - 1]);
                 }
             });
         } else {
-            console.log('Socket code-sync error!');
+            console.error('Socket code-sync error!');
         }
 
         return () => {
@@ -36,7 +43,12 @@ const CodeEditor = ({
         };
     }, [socketRef.current, setFiles, isFilesSyncing]);
 
-    // Function to handle compiling the code
+    // Update current code when a new file is selected
+    useEffect(() => {
+        setCurrentCode(currentSelectedFile?.fileContent || '');
+    }, [currentSelectedFile]);
+
+    // Function to handle compiling the code using Piston API
     const handleCompile = async () => {
         try {
             const response = await fetch('http://localhost:4500/api/compiler/compile', {
@@ -46,20 +58,26 @@ const CodeEditor = ({
                 },
                 body: JSON.stringify({
                     language, // Selected language from the dropdown
-                    code: currentSelectedFile.fileContent, // Current file content as code
+                    code: currentCode, // Use current code from the state
                 }),
             });
 
             const result = await response.json();
-            setOutput(result.output || result.error || 'Unknown error occurred.');
+            setOutput(result.output || 'Unknown error occurred.');
         } catch (error) {
             setOutput('Compilation error. Please try again.');
         }
     };
 
+    // Update currentCode state and sync with parent when editor content changes
+    const handleEditorChange = (newValue) => {
+        setCurrentCode(newValue); // Update with new content from the editor
+        handleFileChange(newValue, currentSelectedFile.fileId); // Call parent handler to sync file content
+    };
+
     return (
-        <div className='flex flex-col h-full'>
-            <div className='flex justify-between items-center p-2 bg-gray-800'>
+        <div className="flex flex-col h-full">
+            <div className="flex justify-between items-center p-2 bg-gray-800">
                 {/* Language selection dropdown */}
                 <select
                     value={language}
@@ -87,13 +105,13 @@ const CodeEditor = ({
 
             {/* Code editor */}
             <Editor
-                className='bg pt-2'
+                className="bg pt-2"
                 width="100%"
                 height="50vh"
                 theme={editorTheme}
                 language={language} // Use the selected language for the editor
-                value={currentSelectedFile.fileContent}
-                onChange={handleFileChange}
+                value={currentCode} // Use currentCode state for the editor's value
+                onChange={handleEditorChange} // Track changes in the editor
             />
 
             {/* Output panel */}
