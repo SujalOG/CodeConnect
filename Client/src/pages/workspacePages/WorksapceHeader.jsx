@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { FaCode, FaPlay } from "react-icons/fa";
+import { FaCode, FaPlay, FaChalkboard } from "react-icons/fa";
 import { MdSyncDisabled, MdOutlineSync, MdMessage } from "react-icons/md";
 import { useContext, useState } from 'react'
 import { WorkspaceContext } from "../../context/WorkspaceProvider";
@@ -14,6 +14,7 @@ const WorksapceHeader = ({
     toggleIsChatSelected,
     saveProject, 
     getAllProjects,
+    setIsWhiteboardOpen,
 }) => {
     const {
         token,
@@ -142,6 +143,15 @@ const WorksapceHeader = ({
                         <MdMessage className="text-lg" />
                     )}
                 </button>
+
+                {/* Whiteboard Button */}
+                <button 
+                    onClick={() => setIsWhiteboardOpen(true)}
+                    className="whiteboard-btn"
+                    title="Open Whiteboard"
+                >
+                    <FaChalkboard /> Whiteboard
+                </button>
             </div>
         </>
     );
@@ -150,6 +160,23 @@ const WorksapceHeader = ({
     return (
         <div className={`navbar bg-slate-600 flex justify-between max-h-[15%]`}>
             {WorksapcePageHeader()}
+            <style>{`
+                .whiteboard-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 16px;
+                    background-color: #4a4a4a;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    margin-left: 8px;
+                }
+                .whiteboard-btn:hover {
+                    background-color: #5a5a5a;
+                }
+            `}</style>
         </div>
     );
 };
