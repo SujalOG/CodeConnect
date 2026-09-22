@@ -16,17 +16,6 @@
 
 ---
 
-## 💼 Resume Ready Highlights (Copy & Paste)
-
-> **Full-Stack Developer / Software Engineer — CodeConnect**
-> - **Real-Time Collaboration Engine:** Engineered a multi-user collaborative coding workspace using **React 18**, **Monaco Editor**, and **Socket.io**, enabling real-time file tree synchronization, cursor tracking, and zero-conflict multi-user editing.
-> - **Cloud Code Execution:** Integrated the **Piston Remote Execution Engine** to compile and run code across 8+ languages (JavaScript, Python, C, C++, Java, Ruby, Go, PHP) with real-time stdout/stderr streaming.
-> - **Rich Media Collaboration:** Built an in-room real-time chat supporting media attachments (images, video, audio, code files) using **Multer** and **Cloudinary CDN**, with message persistence in **MongoDB**.
-> - **System Architecture & Canvas:** Integrated an interactive digital whiteboard using **Excalidraw** for diagramming and live system architecture brainstorming directly within the coding session.
-> - **Secure Authentication & RBAC:** Implemented JWT-based session security, email verification via **Nodemailer**, password reset workflows, and social login with **Google OAuth** and **GitHub OAuth**.
-
----
-
 ## ✨ Core Features
 
 | Feature | Description |
